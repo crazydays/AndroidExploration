@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="landing">Android Exploration</string>
+	<string name="sensors">Android Sensors</string>
+	<string name="magnetic_label">Magnetic</string>
+</resources>
