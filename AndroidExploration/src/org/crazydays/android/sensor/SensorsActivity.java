@@ -77,9 +77,9 @@ public class SensorsActivity
         if (event.sensor == magnetic) {
             EditText x = (EditText) findViewById(R.id.magneticDisplayX);
             x.setText(Float.toString(event.values[0]));
-            EditText y = (EditText) findViewById(R.id.magneticDisplayX);
+            EditText y = (EditText) findViewById(R.id.magneticDisplayY);
             y.setText(Float.toString(event.values[1]));
-            EditText z = (EditText) findViewById(R.id.magneticDisplayX);
+            EditText z = (EditText) findViewById(R.id.magneticDisplayZ);
             z.setText(Float.toString(event.values[2]));
         }
     }
