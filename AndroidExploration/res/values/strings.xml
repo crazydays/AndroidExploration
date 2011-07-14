@@ -2,5 +2,7 @@
 <resources>
 	<string name="landing">Android Exploration</string>
 	<string name="sensors">Android Sensors</string>
-	<string name="magnetic_label">Magnetic</string>
+	<string name="magneticLabel">Magnetic</string>
+	<string name="accelLabel">Accelerometer</string>
+	<string name="orientLabel">Orientation</string>
 </resources>
