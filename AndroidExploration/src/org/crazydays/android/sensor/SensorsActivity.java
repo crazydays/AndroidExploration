@@ -3,6 +3,8 @@ package org.crazydays.android.sensor;
 
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.crazydays.android.R;
 
@@ -30,11 +32,17 @@ public class SensorsActivity
     /** magnetic sensor */
     protected Sensor magnetic;
 
+    /** magnetic sensor reading times */
+    protected List<Long> magneticTimes = new ArrayList<Long>(11);
+
     /** magnetic values */
     protected float[] magneticValues;
 
     /** accelerometer */
     protected Sensor accelerometer;
+
+    /** accelerometer sensor reading times */
+    protected List<Long> accelerometerTimes = new ArrayList<Long>(11);
 
     /** accelerometer values */
     protected float[] accelerometerValues;
@@ -44,6 +52,9 @@ public class SensorsActivity
 
     /** location manager */
     protected LocationManager locationManager;
+
+    /** location reading times */
+    protected List<Long> locationTimes = new ArrayList<Long>();
 
     /** satellites count */
     protected int satellites;
@@ -97,6 +108,7 @@ public class SensorsActivity
         sensorManager.unregisterListener(this, magnetic);
         sensorManager.unregisterListener(this, accelerometer);
         locationManager.removeUpdates(this);
+
     }
 
     @Override
@@ -108,41 +120,97 @@ public class SensorsActivity
     public void onSensorChanged(SensorEvent event)
     {
         if (event.sensor == magnetic) {
-            magneticValues = event.values.clone();
-
-            setText((EditText) findViewById(R.id.magneticDisplayX),
-                magneticValues[0]);
-            setText((EditText) findViewById(R.id.magneticDisplayY),
-                magneticValues[1]);
-            setText((EditText) findViewById(R.id.magneticDisplayZ),
-                magneticValues[2]);
+            handleMagneticEvent(event);
         } else if (event.sensor == accelerometer) {
-            accelerometerValues = event.values.clone();
-
-            setText((EditText) findViewById(R.id.accelDisplayX),
-                accelerometerValues[0]);
-            setText((EditText) findViewById(R.id.accelDisplayY),
-                accelerometerValues[1]);
-            setText((EditText) findViewById(R.id.accelDisplayZ),
-                accelerometerValues[2]);
+            handleAccelerometerEvent(event);
         }
 
-        if (magneticValues != null && accelerometerValues != null) {
-            float[] r = new float[9];
-            float[] i = new float[9];
+        updateOrientation();
+    }
 
-            SensorManager.getRotationMatrix(r, i, accelerometerValues,
-                magneticValues);
-
-            SensorManager.getOrientation(r, orientationValues);
-
-            setText((EditText) findViewById(R.id.orientDisplayX),
-                Math.toDegrees(orientationValues[0]));
-            setText((EditText) findViewById(R.id.orientDisplayY),
-                Math.toDegrees(orientationValues[1]));
-            setText((EditText) findViewById(R.id.orientDisplayZ),
-                Math.toDegrees(orientationValues[2]));
+    /**
+     * Calculate average times and reset queue to 10.
+     * 
+     * @param values Values
+     * @return Average
+     */
+    protected long averageTime(List<Long> values)
+    {
+        if (values.size() < 2) {
+            return 0;
         }
+
+        long first = values.remove(0);
+        long last = values.get(values.size() - 1);
+
+        return (last - first) / values.size();
+    }
+
+    /**
+     * Handle magnetic events.
+     * 
+     * @param event Events
+     */
+    protected void handleMagneticEvent(SensorEvent event)
+    {
+        magneticTimes.add(System.currentTimeMillis());
+        ((EditText) findViewById(R.id.magneticDisplayTimes)).setText(Long
+            .toString(averageTime(magneticTimes)));
+
+        magneticValues = event.values.clone();
+
+        setText((EditText) findViewById(R.id.magneticDisplayX),
+            magneticValues[0]);
+        setText((EditText) findViewById(R.id.magneticDisplayY),
+            magneticValues[1]);
+        setText((EditText) findViewById(R.id.magneticDisplayZ),
+            magneticValues[2]);
+    }
+
+    /**
+     * Handle accelerometer events.
+     * 
+     * @param event Event
+     */
+    protected void handleAccelerometerEvent(SensorEvent event)
+    {
+        accelerometerTimes.add(System.currentTimeMillis());
+        ((EditText) findViewById(R.id.accelDisplayTimes)).setText(Long
+            .toString(averageTime(accelerometerTimes)));
+
+        accelerometerValues = event.values.clone();
+
+        setText((EditText) findViewById(R.id.accelDisplayX),
+            accelerometerValues[0]);
+        setText((EditText) findViewById(R.id.accelDisplayY),
+            accelerometerValues[1]);
+        setText((EditText) findViewById(R.id.accelDisplayZ),
+            accelerometerValues[2]);
+    }
+
+    /**
+     * Update orientation values.
+     */
+    protected void updateOrientation()
+    {
+        if (magneticValues == null || accelerometerValues == null) {
+            return;
+        }
+
+        float[] r = new float[9];
+        float[] i = new float[9];
+
+        SensorManager.getRotationMatrix(r, i, accelerometerValues,
+            magneticValues);
+
+        SensorManager.getOrientation(r, orientationValues);
+
+        setText((EditText) findViewById(R.id.orientDisplayX),
+            Math.toDegrees(orientationValues[0]));
+        setText((EditText) findViewById(R.id.orientDisplayY),
+            Math.toDegrees(orientationValues[1]));
+        setText((EditText) findViewById(R.id.orientDisplayZ),
+            Math.toDegrees(orientationValues[2]));
     }
 
     /**
@@ -159,6 +227,10 @@ public class SensorsActivity
     @Override
     public void onLocationChanged(Location location)
     {
+        locationTimes.add(System.currentTimeMillis());
+        ((EditText) findViewById(R.id.locationDisplayTimes)).setText(Long
+            .toString(averageTime(locationTimes)));
+
         ((EditText) findViewById(R.id.locationDisplaySource)).setText(location
             .getProvider() + ": " + satellites);
         setText((EditText) findViewById(R.id.locationDisplayLongitude),

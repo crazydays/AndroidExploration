@@ -8,6 +8,9 @@
 		<TextView android:layout_width="200px" android:layout_height="wrap_content"
 			android:id="@+id/magneticLabel" android:textAppearance="?android:attr/textAppearanceLarge"
 			android:text="@string/magneticLabel"></TextView>
+		<EditText android:id="@+id/magneticDisplayTimes"
+			android:layout_width="200px" android:layout_height="wrap_content"
+			android:enabled="false" android:editable="false"></EditText>
 		<EditText android:id="@+id/magneticDisplayX"
 			android:layout_width="200px" android:layout_height="wrap_content"
 			android:enabled="false" android:editable="false"></EditText>
@@ -24,6 +27,9 @@
 		<TextView android:layout_width="200px" android:layout_height="wrap_content"
 			android:id="@+id/accelLabel" android:textAppearance="?android:attr/textAppearanceLarge"
 			android:text="@string/accelLabel"></TextView>
+		<EditText android:id="@+id/accelDisplayTimes"
+			android:layout_width="200px" android:layout_height="wrap_content"
+			android:enabled="false" android:editable="false"></EditText>
 		<EditText android:id="@+id/accelDisplayX"
 			android:layout_width="200px" android:layout_height="wrap_content"
 			android:enabled="false" android:editable="false"></EditText>
@@ -40,6 +46,9 @@
 		<TextView android:layout_width="200px" android:layout_height="wrap_content"
 			android:id="@+id/orientLabel" android:textAppearance="?android:attr/textAppearanceLarge"
 			android:text="@string/orientLabel"></TextView>
+		<EditText android:id="@+id/orientDisplayTimes"
+			android:layout_width="200px" android:layout_height="wrap_content"
+			android:enabled="false" android:editable="false"></EditText>
 		<EditText android:id="@+id/orientDisplayX"
 			android:layout_width="200px" android:layout_height="wrap_content"
 			android:enabled="false" android:editable="false"></EditText>
@@ -56,6 +65,9 @@
 		<TextView android:layout_width="200px" android:layout_height="wrap_content"
 			android:id="@+id/locationLabel" android:textAppearance="?android:attr/textAppearanceLarge"
 			android:text="@string/locationLabel"></TextView>
+		<EditText android:id="@+id/locationDisplayTimes"
+			android:layout_width="200px" android:layout_height="wrap_content"
+			android:enabled="false" android:editable="false"></EditText>
 		<EditText android:id="@+id/locationDisplaySource"
 			android:layout_width="200px" android:layout_height="wrap_content"
 			android:enabled="false" android:editable="false"></EditText>
