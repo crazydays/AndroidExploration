@@ -5,4 +5,6 @@
 	<string name="magneticLabel">Magnetic</string>
 	<string name="accelLabel">Accelerometer</string>
 	<string name="orientLabel">Orientation</string>
+	<string name="locationLabel">Location</string>
+	<string name="disabled">Disabled</string>
 </resources>

@@ -50,4 +50,20 @@
 			android:layout_width="200px" android:layout_height="wrap_content"
 			android:enabled="false" android:editable="false"></EditText>
 	</LinearLayout>
+	<LinearLayout android:orientation="vertical" android:id="@+id/locationLayout"
+		android:layout_height="wrap_content" android:layout_width="wrap_content"
+		android:layout_margin="10px" android:layout_toRightOf="@id/orientLayout">
+		<TextView android:layout_width="200px" android:layout_height="wrap_content"
+			android:id="@+id/locationLabel" android:textAppearance="?android:attr/textAppearanceLarge"
+			android:text="@string/locationLabel"></TextView>
+		<EditText android:id="@+id/locationDisplaySource"
+			android:layout_width="200px" android:layout_height="wrap_content"
+			android:enabled="false" android:editable="false"></EditText>
+		<EditText android:id="@+id/locationDisplayLongitude"
+			android:layout_width="200px" android:layout_height="wrap_content"
+			android:enabled="false" android:editable="false"></EditText>
+		<EditText android:id="@+id/locationDisplayLatitude"
+			android:layout_width="200px" android:layout_height="wrap_content"
+			android:enabled="false" android:editable="false"></EditText>
+	</LinearLayout>
 </RelativeLayout>

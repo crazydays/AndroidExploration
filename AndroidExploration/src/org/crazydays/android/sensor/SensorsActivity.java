@@ -11,6 +11,9 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.widget.EditText;
 
@@ -19,7 +22,7 @@ import android.widget.EditText;
  */
 public class SensorsActivity
     extends Activity
-    implements SensorEventListener
+    implements SensorEventListener, LocationListener
 {
     /** sensor manager */
     protected SensorManager sensorManager;
@@ -38,6 +41,12 @@ public class SensorsActivity
 
     /** orientation values */
     protected float[] orientationValues = new float[3];
+
+    /** location manager */
+    protected LocationManager locationManager;
+
+    /** satellites count */
+    protected int satellites;
 
     /**
      * On create.
@@ -63,6 +72,8 @@ public class SensorsActivity
         magnetic = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
         accelerometer =
             sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
     }
 
     @Override
@@ -74,6 +85,8 @@ public class SensorsActivity
             SensorManager.SENSOR_DELAY_UI);
         sensorManager.registerListener(this, accelerometer,
             SensorManager.SENSOR_DELAY_UI);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
+            0, this);
     }
 
     @Override
@@ -83,6 +96,7 @@ public class SensorsActivity
 
         sensorManager.unregisterListener(this, magnetic);
         sensorManager.unregisterListener(this, accelerometer);
+        locationManager.removeUpdates(this);
     }
 
     @Override
@@ -139,6 +153,36 @@ public class SensorsActivity
      */
     protected void setText(EditText editText, double value)
     {
-        editText.setText(MessageFormat.format("{0,number,#.###}", value));
+        editText.setText(MessageFormat.format("{0,number,#.####}", value));
+    }
+
+    @Override
+    public void onLocationChanged(Location location)
+    {
+        ((EditText) findViewById(R.id.locationDisplaySource)).setText(location
+            .getProvider() + ": " + satellites);
+        setText((EditText) findViewById(R.id.locationDisplayLongitude),
+            location.getLongitude());
+        setText((EditText) findViewById(R.id.locationDisplayLatitude),
+            location.getLatitude());
+    }
+
+    @Override
+    public void onProviderDisabled(String provider)
+    {
+        ((EditText) findViewById(R.id.locationDisplaySource))
+            .setText(getString(R.string.disabled));
+    }
+
+    @Override
+    public void onProviderEnabled(String provider)
+    {
+        ((EditText) findViewById(R.id.locationDisplaySource)).setText(provider);
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras)
+    {
+        satellites = extras.getInt("satellites");
     }
 }
