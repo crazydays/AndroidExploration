@@ -233,10 +233,10 @@ public class SensorsActivity
 
         ((EditText) findViewById(R.id.locationDisplaySource)).setText(location
             .getProvider() + ": " + satellites);
-        setText((EditText) findViewById(R.id.locationDisplayLongitude),
-            location.getLongitude());
         setText((EditText) findViewById(R.id.locationDisplayLatitude),
             location.getLatitude());
+        setText((EditText) findViewById(R.id.locationDisplayLongitude),
+            location.getLongitude());
     }
 
     @Override

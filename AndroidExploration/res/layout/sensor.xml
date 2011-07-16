@@ -71,10 +71,10 @@
 		<EditText android:id="@+id/locationDisplaySource"
 			android:layout_width="200px" android:layout_height="wrap_content"
 			android:enabled="false" android:editable="false"></EditText>
-		<EditText android:id="@+id/locationDisplayLongitude"
+		<EditText android:id="@+id/locationDisplayLatitude"
 			android:layout_width="200px" android:layout_height="wrap_content"
 			android:enabled="false" android:editable="false"></EditText>
-		<EditText android:id="@+id/locationDisplayLatitude"
+		<EditText android:id="@+id/locationDisplayLongitude"
 			android:layout_width="200px" android:layout_height="wrap_content"
 			android:enabled="false" android:editable="false"></EditText>
 	</LinearLayout>
